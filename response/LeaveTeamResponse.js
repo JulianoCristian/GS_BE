@@ -9,11 +9,16 @@
 require("COMMON_TEAM_TASKS");
 
 
-if( !Spark.hasScriptErrors() ) {
-    
-    var teamId = Spark.getData().TeamId;
+Spark.setScriptData("script_version", 1);
 
+var data = Spark.getData();
+if( !data.hasOwnProperty("error") ) {
+    
+    var teamId = data.teamId;
     updateMemberCount( teamId );
+    
+    var player = Spark.getPlayer();
+    setPlayerGuild( player, null );
 
 }
 

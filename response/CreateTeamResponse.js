@@ -10,11 +10,15 @@ require("CONSTANTS");
 require("COMMON_TASKS");
 require("COMMON_TEAM_TASKS");
 
+Spark.setScriptData("script_version", 4);  // for debug
+
 
 var data = Spark.getData();
 if( !data.hasOwnProperty("error") ) {
     
     var teamId = ensureTeamId( data );
+    
+    setPlayerGuild( Spark.getPlayer(), teamId );
     
     // save extra data
     data.scriptData["_id"] = teamId;
@@ -23,9 +27,9 @@ if( !data.hasOwnProperty("error") ) {
     data.scriptData["prestige"] = 0;
     data.scriptData["score"] = 0;
 
-    var extra_data = Spark.runtimeCollection("guildExtraData");
-    extra_data.save(data.scriptData);
+    Spark.runtimeCollection("guildExtraData").save(data.scriptData);
+    Spark.runtimeCollection("guildPendingRequests").save({"_id": teamId, "requests": {}});
 
-    setExtraData(data.scriptData);
+    setScriptExtraData(data.scriptData);
     
 }

@@ -6,24 +6,22 @@
 //
 // ====================================================================================================
 
-var GlobalTeamId = "globalteamid";
+require("COMMON_TEAM_TASKS");
 
-var response = Spark.getData();
 
-// join GlobalTeam on Auth success
-if( !response.hasOwnProperty("error") ) {
-    //var userId = response.userId;
-    
-    var request = new SparkRequests.LeaveTeamRequest();
-    request.ownerId = null;
-    request.teamId = GlobalTeamId;
-    request.teamType = "GlobalTeam";
-    var leave_response = request.Send();
-    
-    // give back error
-    if( leave_response.hasOwnProperty("error") )
-        Spark.setScriptError( "LeaveTeamRequest", leave_response.error );
-    
+Spark.setScriptData("script_version", 2);  // for debug
+
+var data = Spark.getData();
+
+// leave GlobalTeam on session end
+if( !data.hasOwnProperty("error") ) {
+
+    // leave the global chat and get object
+    var global_chat = getGlobalChat();
+    leaveGuild( global_chat );
+
 }
 
-Spark.setScriptData("version", 1);  // for debug
+
+
+

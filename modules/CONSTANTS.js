@@ -6,6 +6,11 @@
 //
 // ====================================================================================================
 
+
+//
+// GUILD
+//
+
 var GLOBAL_CHAT_TEAM_ID = "592c91ef86972904ea20ce4e";
 
 var GUILD_MAX_MEMBER_COUNT = 50;
@@ -15,5 +20,15 @@ var GUILD_TYPES = {
     "CLOSED": 1,
     "INVITE_ONLY": 2,
 }
+
+
+//
+// LEADERBOARD
+//
+
+var GLOBAL_PLAYER_LB_ID = "GlobalPlayerLb";
+var GLOBAL_CHARACTER_LB_ID = "GlobalCharacterLb";
+
+
 
 

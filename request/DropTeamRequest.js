@@ -1,16 +1,21 @@
 // ====================================================================================================
 //
-// Cloud Code for COMMON_TASKS, write your code here to customize the GameSparks platform.
+// Cloud Code for DropTeamRequest, write your code here to customize the GameSparks platform.
 //
 // For details of the GameSparks Cloud Code API see https://docs.gamesparks.com/
 //
 // ====================================================================================================
 
+require("COMMON_TASKS");
 
-function setScriptExtraData( extra_data ) {
-    for( var key in extra_data ) {
-        if( extra_data.hasOwnProperty(key) ) {
-            Spark.setScriptData(key, extra_data[key]);
-        }
-    }
-}
+
+var data = Spark.getData();
+
+var scriptData = {
+    "teamId": data.teamId,
+    "teamType": data.teamType,
+    "ownerId": data.ownerId
+};
+
+setScriptExtraData( scriptData );
+

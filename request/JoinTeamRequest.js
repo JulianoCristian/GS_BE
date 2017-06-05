@@ -17,17 +17,18 @@ if( typeof teamId === "undefined" || teamId === null || teamId === "" )
 
     
 // check if guild type is open
-var extra_data = Spark.runtimeCollection("guildExtraData");
-var result = extra_data.findOne({"_id": teamId}, {"type": 1});
+var extra_data = getTeamExtraData( teamId );    // TODO: only need type
 
-if( result.type === GUILD_TYPES.OPEN ) {
+if( extra_data.type === GUILD_TYPES.OPEN ) {
     // open so proceed with join
     Spark.exit();
-} else if( result.type === GUILD_TYPES.INVITE_ONLY ) {
+} else if( extra_data.type === GUILD_TYPES.INVITE_ONLY ) {
     
-    // TODO: invite only, so record request
-    
-    
+    // invite only, so record request
+    addJoinRequest( teamId, Spark.getPlayer() );
+    Spark.setScriptError("GUILD_OPTION", "INVITE_ONLY");
+    Spark.exit();
+
 } else {
     
     // return all kinds of bad

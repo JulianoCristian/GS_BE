@@ -7,13 +7,26 @@
 // ====================================================================================================
 
 var leaderboard_short_code = Spark.getData().LeaderboardShortCode;
-var score_json = JSON.parse(Spark.getData().ScoreJSON);
+var score_json = null;
+try {
+    score_json = JSON.parse(Spark.getData().ScoreJSON);
+} catch (e) {
+    Spark.setScriptError("ScoreJSON", "INVALID");
+    Spark.exit();
+}
 
 var response = null;
-if( leaderboard_short_code == "GlobalScore" ) {
+if( leaderboard_short_code == "GlobalPlayerLb" ) {
 
     var request = new SparkRequests.LogEventRequest();
-    request.eventKey = "RecordGlobalScore";
+    request.eventKey = "RecordGlobalPlayerScore";
+    request.TestScore = score_json.TestScore;
+    response = request.Send();
+
+} else if( leaderboard_short_code == "GlobalCharacterLb" ) {
+
+    var request = new SparkRequests.LogEventRequest();
+    request.eventKey = "RecordGlobalCharacterScore";
     request.TestScore = score_json.TestScore;
     response = request.Send();
 
@@ -21,6 +34,9 @@ if( leaderboard_short_code == "GlobalScore" ) {
     Spark.setScriptError("LeaderboardShortCode", "INVALID");
 }
 
-if( response !== null && response.hasOwnProperty("error") ) {
+if( typeof response !== "undefined" && response !== null && response.hasOwnProperty("error") ) {
     Spark.setScriptError(leaderboard_short_code, response.error);
+    Spark.exit();
 }
+
+

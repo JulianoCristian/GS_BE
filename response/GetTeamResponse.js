@@ -6,15 +6,26 @@
 //
 // ====================================================================================================
 
-if( !Spark.hasScriptErrors() ) {
+require("COMMON_TASKS");
+require("COMMON_TEAM_TASKS");
+
+
+Spark.setScriptData("script_version", 2);  // for debug
+
+var data = Spark.getData();
+if( !data.hasOwnProperty("error") ) {
     
-    var extra_data = Spark.runtimeCollection("teamExtraData");
-    var result = extra_data.find({"_id": {"$oid": teamId }});
+    var team_extra_data = null;
 
-    for (var property in result) {
-        if (result.hasOwnProperty(property)) {
-            Spark.setScriptData(property, result[property]);
-        }
+    if( data.hasOwnProperty("teams") && data.teams.length > 0 ) {
+
+        var teamId = data.teams[0].teamId;
+        team_extra_data = getTeamExtraData( teamId );
+
     }
-
+    
+    Spark.setScriptData("team_extra_data", team_extra_data);
+    
+    // player extra data is in player's scriptData
+    
 }

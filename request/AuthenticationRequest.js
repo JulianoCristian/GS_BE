@@ -1,16 +1,17 @@
 // ====================================================================================================
 //
-// Cloud Code for COMMON_TASKS, write your code here to customize the GameSparks platform.
+// Cloud Code for AuthenticationRequest, write your code here to customize the GameSparks platform.
 //
 // For details of the GameSparks Cloud Code API see https://docs.gamesparks.com/
 //
 // ====================================================================================================
 
+require("COMMON_TASKS");
 
-function setScriptExtraData( extra_data ) {
-    for( var key in extra_data ) {
-        if( extra_data.hasOwnProperty(key) ) {
-            Spark.setScriptData(key, extra_data[key]);
-        }
-    }
-}
+
+var data = Spark.getData();
+
+// TODO: validate scriptData against version
+var scriptData = data.scriptData;
+
+setScriptExtraData( scriptData );
